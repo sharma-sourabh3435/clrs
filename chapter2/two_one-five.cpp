@@ -2,43 +2,29 @@
 #include <iostream>
 #include <vector>
 
-int main()
+void bit_adder(std::vector<int> & a, std::vector<int> & b, std::vector<int> & res)
 {
-    std::vector<int> a = {0, 1, 1, 1, 0, 1};
-    std::vector<int> b = {1, 1, 1, 1, 1, 1};
-    std::vector<int> res(a.size()+1, 0); // (length, val)
     int carry = 0;
     for (int i = 0; i < a.size(); i++)
     {
-        if (carry == 0)
-        {
-            if (a[i] == 1 || b[i] == 1)
-            {
-                res[i] = 1;
-            }
-            if ( a[i] == 1 && b[i] == 1)
-            {
-                carry = 1;
-            }
-            continue;
-        }
-        if (carry == 1)
-        {
-            if (a[i] == 0 && b[i] == 0)
-            {
-                res[i] == 1;
-                carry = 0;
-            }
-            if (a[i] == 1 && b[i] == 1)
-            {
-                res[i] == 1;
-            }
-        }
+        int sum = a[i] + b[i] + carry;
+
+        res[i] = sum % 2;
+        carry = sum / 2;
     }
     if (carry == 1)
     {
         res[a.size()] = 1;
     }
+}
+int main()
+{
+    std::vector<int> a = {1, 1, 1, 1, 1, 1};
+    std::vector<int> b = {1, 1, 1, 1, 1, 1};
+    std::vector<int> res(a.size()+1, 0); // (length, val)
+    
+    bit_adder(a, b, res);
+    
     for (auto & num : res)
     {
         std::cout << num << " ";
